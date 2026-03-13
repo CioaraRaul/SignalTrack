@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: signaltrack
+      MYSQL_DATABASE: signaltrack
+      MYSQL_USER: signaltrack
+      MYSQL_PASSWORD: signaltrack
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./signaltrack-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./signaltrack-backend/src:/app/src
+    environment:
+      DATABASE_URL: mysql://signaltrack:signaltrack@db:3306/signaltrack
+    depends_on:
+      - db
+    command: npm run start:dev
+
+  frontend:
+    build:
+      context: ./signaltrack-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./signaltrack-frontend/src:/app/src
+
+volumes:
+  mysqldata:
