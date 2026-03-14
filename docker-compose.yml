@@ -33,6 +33,9 @@ services:
       - "4200:4200"
     volumes:
       - ./signaltrack-frontend/src:/app/src
+      - ./signaltrack-frontend/angular.json:/app/angular.json
+      - ./signaltrack-frontend/tsconfig.json:/app/tsconfig.json
+      - ./signaltrack-frontend/tsconfig.app.json:/app/tsconfig.app.json
 
 volumes:
   mysqldata:
