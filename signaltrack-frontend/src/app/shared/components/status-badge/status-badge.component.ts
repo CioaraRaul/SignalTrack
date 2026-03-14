@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+import { VehicleStatus } from '../../../state/models/vehicle.model';
+import { STATUS_COLORS, STATUS_LABELS } from '../../../state/fleet.constants';
 
 @Component({
   selector: 'app-status-badge',
@@ -7,5 +9,8 @@ import { Component } from '@angular/core';
   styleUrl: './status-badge.component.scss',
 })
 export class StatusBadgeComponent {
-  // TODO: Status badge logic
+  status = input.required<VehicleStatus>();
+
+  color = computed(() => STATUS_COLORS[this.status()]);
+  label = computed(() => STATUS_LABELS[this.status()]);
 }

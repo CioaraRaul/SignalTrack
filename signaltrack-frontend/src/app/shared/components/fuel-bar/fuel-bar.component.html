@@ -1,3 +1,6 @@
 <div class="fuel-bar">
-  <!-- TODO: Fuel bar template -->
+  <div class="track">
+    <div class="fill" [style.width.%]="level()" [style.backgroundColor]="barColor()"></div>
+  </div>
+  <span class="value">{{ level() }}%</span>
 </div>

@@ -1,3 +1,37 @@
-<aside class="sidebar-shell">
-  <!-- TODO: Sidebar shell template -->
+<aside class="sidebar-shell" [class.collapsed]="!ui.sidebarOpen()">
+  <div class="sidebar-header">
+    <h2 class="title">Vehicule</h2>
+    <button class="toggle-btn" (click)="toggleSidebar()" title="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        @if (ui.sidebarOpen()) {
+          <path
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+          />
+        } @else {
+          <path
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+          />
+        }
+      </svg>
+    </button>
+  </div>
+
+  @if (ui.sidebarOpen()) {
+    <div class="filter-tabs">
+      @for (f of filters; track f.value) {
+        <button
+          class="filter-tab"
+          [class.active]="ui.activeFilter() === f.value"
+          (click)="setFilter(f.value)"
+        >
+          {{ f.label }}
+          <span class="badge">{{ getCount(f.value) }}</span>
+        </button>
+      }
+    </div>
+
+    <div class="vehicle-list-container">
+      <app-vehicle-list />
+    </div>
+  }
 </aside>

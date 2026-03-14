@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-fuel-bar',
@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './fuel-bar.component.scss',
 })
 export class FuelBarComponent {
-  // TODO: Fuel bar logic
+  level = input.required<number>();
+
+  barColor = computed(() => {
+    const l = this.level();
+    if (l > 50) return '#22c55e';
+    if (l > 25) return '#eab308';
+    return '#ef4444';
+  });
 }

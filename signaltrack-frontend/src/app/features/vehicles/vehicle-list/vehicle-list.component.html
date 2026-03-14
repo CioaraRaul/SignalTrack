@@ -1,3 +1,7 @@
 <section class="vehicle-list">
-  <!-- TODO: Vehicle list template -->
+  @for (vehicle of filteredVehicles(); track vehicle.id) {
+    <app-vehicle-card [vehicle]="vehicle" (selected)="onVehicleSelected($event)" />
+  } @empty {
+    <div class="empty-state">Niciun vehicul găsit</div>
+  }
 </section>

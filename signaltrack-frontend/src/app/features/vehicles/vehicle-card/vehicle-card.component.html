@@ -1,3 +1,23 @@
-<article class="vehicle-card">
-  <!-- TODO: Vehicle card template -->
+<article class="vehicle-card" [class.selected]="isSelected()" (click)="onClick()">
+  <div class="card-header">
+    <span class="plate">{{ vehicle().plateNumber }}</span>
+    <app-status-badge [status]="vehicle().status" />
+  </div>
+
+  <div class="driver">{{ vehicle().driverName }}</div>
+
+  <div class="card-details">
+    <div class="detail-row">
+      <span class="detail-label">Viteză</span>
+      <span class="detail-value">{{ vehicle().speed | speedFormat }}</span>
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Combustibil</span>
+      <app-fuel-bar [level]="vehicle().fuelLevel" />
+    </div>
+    <div class="detail-row">
+      <span class="detail-label">Actualizat</span>
+      <span class="detail-value muted">{{ vehicle().lastUpdate | timeAgo }}</span>
+    </div>
+  </div>
 </article>

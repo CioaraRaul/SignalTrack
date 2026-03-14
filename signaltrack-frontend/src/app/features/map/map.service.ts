@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
 import { Vehicle } from '../../state/models/vehicle.model';
 import { createMarkerIcon } from './marker-icon.factory';
+import { fleetStore } from '../../state/fleet.store';
 
 @Injectable({ providedIn: 'root' })
 export class MapService {
@@ -49,6 +50,7 @@ export class MapService {
           icon: createMarkerIcon(vehicle.status),
         })
           .bindPopup(this.buildPopup(vehicle))
+          .on('click', () => fleetStore.selectVehicle(vehicle.id))
           .addTo(this.map!);
 
         this.markers.set(vehicle.id, marker);
