@@ -13,6 +13,8 @@ export const fleetStore = {
     return _vehicles().find((v) => v.id === id) ?? null;
   }),
 
+  alertVehicles: computed(() => _vehicles().filter((v) => v.status === 'alert')),
+
   movingCount: computed(() => _vehicles().filter((v) => v.status === 'moving').length),
   idleCount: computed(() => _vehicles().filter((v) => v.status === 'idle').length),
   offlineCount: computed(() => _vehicles().filter((v) => v.status === 'offline').length),

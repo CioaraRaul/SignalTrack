@@ -1,3 +1,7 @@
-export interface Alert {
-  // TODO: Alert model properties
+import { Vehicle } from './vehicle.model';
+
+export interface AlertNotification {
+  id: string;
+  vehicle: Vehicle;
+  timestamp: number;
 }
