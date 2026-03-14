@@ -1,2 +1,16 @@
-// Leaflet style overrides
-// TODO: Add Leaflet CSS overrides
+// Leaflet popup overrides
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.vehicle-marker {
+  background: none !important;
+  border: none !important;
+}

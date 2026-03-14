@@ -1,3 +1,3 @@
-export { Vehicle } from './vehicle.model';
-export { Alert } from './alert.model';
-export { SocketEvent } from './socket-event.model';
+export type { Vehicle, VehicleStatus } from './vehicle.model';
+export type { Alert } from './alert.model';
+export type { SocketEvent } from './socket-event.model';

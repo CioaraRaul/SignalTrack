@@ -1,3 +1,15 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .map-container {
-  // TODO: Map styles
+  width: 100%;
+  height: 100vh;
+}
+
+::ng-deep .vehicle-marker {
+  background: none !important;
+  border: none !important;
 }

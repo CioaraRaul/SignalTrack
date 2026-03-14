@@ -1,2 +1,13 @@
-// Design system variables
-// TODO: Add SCSS variables (colors, spacing, typography, etc.)
+// Status colors
+$color-moving: #22c55e;
+$color-idle: #eab308;
+$color-offline: #9ca3af;
+$color-alert: #ef4444;
+
+// Layout
+$sidebar-width: 320px;
+$sidebar-collapsed-width: 0px;
+
+// Base
+$font-family: 'Inter', system-ui, sans-serif;
+$radius: 8px;
