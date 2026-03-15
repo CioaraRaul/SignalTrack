@@ -5,7 +5,6 @@ import { MapService } from '../../map/map.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago.pipe';
 
-
 @Component({
   selector: 'app-alert-panel',
   standalone: true,

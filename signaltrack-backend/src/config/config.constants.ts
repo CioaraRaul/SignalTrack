@@ -1,0 +1,4 @@
+export const DEFAULT_PORT = 3000;
+export const DEFAULT_CORS_ORIGIN = '*';
+export const DEFAULT_ALERT_SPEED_THRESHOLD = 120;
+export const DEFAULT_ALERT_FUEL_THRESHOLD = 15;

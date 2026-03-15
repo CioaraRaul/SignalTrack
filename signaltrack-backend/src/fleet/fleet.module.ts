@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { FleetGateway } from './fleet.gateway';
-import { SimulationService } from './simulation.service';
+import { FleetService } from './fleet.service';
+import { AlertsModule } from '../alerts/alerts.module';
 
 @Module({
-  providers: [FleetGateway, SimulationService],
+  imports: [AlertsModule],
+  providers: [FleetGateway, FleetService],
 })
 export class FleetModule {}

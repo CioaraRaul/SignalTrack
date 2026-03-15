@@ -4,7 +4,6 @@ import { uiStore } from '../../../state/ui.store';
 import { MapService } from '../../map/map.service';
 import { VehicleCardComponent } from '../vehicle-card/vehicle-card.component';
 
-
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,

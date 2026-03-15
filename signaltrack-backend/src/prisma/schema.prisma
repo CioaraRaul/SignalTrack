@@ -1,13 +1,42 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
+@import type {VehicleStatus} from "enum/vehicle.enum.ts"
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../../generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+model Vehicle {
+  id          String   @id @default(uuid())
+  plateNumber String   @unique
+  driverName  String
+  status      VehileStatus   @default("idle")
+  speed       Float    @default(0)
+  fuelLevel   Float    @default(100)
+  lat         Float
+  lng         Float
+  lastUpdate  DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  alerts Alert[]
+
+  @@map("vehicles")
+}
+
+model Alert {
+  id        String   @id @default(uuid())
+  vehicleId String
+  type      String   // 'speed' | 'fuel'
+  value     Float
+  threshold Float
+  createdAt DateTime @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId])
+  @@map("alerts")
 }
