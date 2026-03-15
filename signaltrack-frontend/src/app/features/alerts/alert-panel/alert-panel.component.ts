@@ -5,6 +5,7 @@ import { MapService } from '../../map/map.service';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { TimeAgoPipe } from '../../../shared/pipes/time-ago.pipe';
 
+
 @Component({
   selector: 'app-alert-panel',
   standalone: true,
@@ -20,11 +21,7 @@ export class AlertPanelComponent {
   constructor(private mapService: MapService) {}
 
   onAlertClick(vehicleId: string): void {
-    const vehicle = this.alerts().find((v) => v.id === vehicleId);
-    if (vehicle) {
-      fleetStore.selectVehicle(vehicleId);
-      this.mapService.flyTo(vehicle.lat, vehicle.lng);
-    }
+    this.mapService.toggleVehicleSelection(vehicleId);
   }
 
   togglePanel(): void {

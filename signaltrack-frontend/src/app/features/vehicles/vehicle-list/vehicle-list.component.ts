@@ -4,6 +4,7 @@ import { uiStore } from '../../../state/ui.store';
 import { MapService } from '../../map/map.service';
 import { VehicleCardComponent } from '../vehicle-card/vehicle-card.component';
 
+
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
@@ -22,10 +23,6 @@ export class VehicleListComponent {
   });
 
   onVehicleSelected(vehicleId: string): void {
-    fleetStore.selectVehicle(vehicleId);
-    const vehicle = fleetStore.vehicles().find((v) => v.id === vehicleId);
-    if (vehicle) {
-      this.mapService.flyTo(vehicle.lat, vehicle.lng);
-    }
+    this.mapService.toggleVehicleSelection(vehicleId);
   }
 }

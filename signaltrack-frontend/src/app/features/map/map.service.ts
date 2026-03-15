@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { Vehicle } from '../../state/models/vehicle.model';
 import { createMarkerIcon } from './marker-icon.factory';
 import { fleetStore } from '../../state/fleet.store';
+import { uiStore } from '../../state/ui.store';
 
 @Injectable({ providedIn: 'root' })
 export class MapService {
@@ -50,7 +51,7 @@ export class MapService {
           icon: createMarkerIcon(vehicle.status),
         })
           .bindPopup(this.buildPopup(vehicle))
-          .on('click', () => fleetStore.selectVehicle(vehicle.id))
+          .on('click', () => this.handleMarkerClick(vehicle.id))
           .addTo(this.map!);
 
         this.markers.set(vehicle.id, marker);
@@ -60,6 +61,50 @@ export class MapService {
 
   flyTo(lat: number, lng: number, zoom = 16): void {
     this.map?.flyTo([lat, lng], zoom, { duration: 1 });
+  }
+
+  getCenter(): [number, number] | null {
+    if (!this.map) return null;
+    const c = this.map.getCenter();
+    return [c.lat, c.lng];
+  }
+
+  getZoom(): number | null {
+    return this.map?.getZoom() ?? null;
+  }
+
+  restoreView(center: [number, number], zoom: number): void {
+    this.map?.flyTo(center, zoom, { duration: 1 });
+  }
+
+  toggleVehicleSelection(vehicleId: string): void {
+    if (fleetStore.selectedVehicleId() === vehicleId) {
+      fleetStore.selectVehicle(null);
+      const prev = uiStore.previousMapView();
+      if (prev) {
+        this.restoreView(prev.center, prev.zoom);
+        uiStore.clearPreviousMapView();
+      }
+      return;
+    }
+
+    if (!uiStore.previousMapView()) {
+      const center = this.getCenter();
+      const zoom = this.getZoom();
+      if (center && zoom != null) {
+        uiStore.setPreviousMapView({ center, zoom });
+      }
+    }
+
+    fleetStore.selectVehicle(vehicleId);
+    const vehicle = fleetStore.vehicles().find((v) => v.id === vehicleId);
+    if (vehicle) {
+      this.flyTo(vehicle.lat, vehicle.lng);
+    }
+  }
+
+  private handleMarkerClick(vehicleId: string): void {
+    this.toggleVehicleSelection(vehicleId);
   }
 
   destroyMap(): void {
