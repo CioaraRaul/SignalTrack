@@ -1,4 +1,3 @@
-@import type {VehicleStatus} from "enum/vehicle.enum.ts"
 generator client {
   provider = "prisma-client"
   output   = "../../generated/prisma"
@@ -6,21 +5,27 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url = env("DATABASE_URL")
+}
+
+enum VehicleStatus {
+  idle
+  moving
+  alert
+  offline
 }
 
 model Vehicle {
-  id          String   @id @default(uuid())
-  plateNumber String   @unique
+  id          String        @id @default(uuid())
+  plateNumber String        @unique
   driverName  String
-  status      VehileStatus   @default("idle")
-  speed       Float    @default(0)
-  fuelLevel   Float    @default(100)
+  status      VehicleStatus @default(idle)
+  speed       Float         @default(0)
+  fuelLevel   Float         @default(100)
   lat         Float
   lng         Float
-  lastUpdate  DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  lastUpdate  DateTime      @default(now())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   alerts Alert[]
 
@@ -30,7 +35,7 @@ model Vehicle {
 model Alert {
   id        String   @id @default(uuid())
   vehicleId String
-  type      String   // 'speed' | 'fuel'
+  type      String
   value     Float
   threshold Float
   createdAt DateTime @default(now())

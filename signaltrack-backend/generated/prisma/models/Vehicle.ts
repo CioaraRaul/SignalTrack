@@ -44,7 +44,7 @@ export type VehicleMinAggregateOutputType = {
   id: string | null
   plateNumber: string | null
   driverName: string | null
-  status: string | null
+  status: $Enums.VehicleStatus | null
   speed: number | null
   fuelLevel: number | null
   lat: number | null
@@ -58,7 +58,7 @@ export type VehicleMaxAggregateOutputType = {
   id: string | null
   plateNumber: string | null
   driverName: string | null
-  status: string | null
+  status: $Enums.VehicleStatus | null
   speed: number | null
   fuelLevel: number | null
   lat: number | null
@@ -231,7 +231,7 @@ export type VehicleGroupByOutputType = {
   id: string
   plateNumber: string
   driverName: string
-  status: string
+  status: $Enums.VehicleStatus
   speed: number
   fuelLevel: number
   lat: number
@@ -268,7 +268,7 @@ export type VehicleWhereInput = {
   id?: Prisma.StringFilter<"Vehicle"> | string
   plateNumber?: Prisma.StringFilter<"Vehicle"> | string
   driverName?: Prisma.StringFilter<"Vehicle"> | string
-  status?: Prisma.StringFilter<"Vehicle"> | string
+  status?: Prisma.EnumVehicleStatusFilter<"Vehicle"> | $Enums.VehicleStatus
   speed?: Prisma.FloatFilter<"Vehicle"> | number
   fuelLevel?: Prisma.FloatFilter<"Vehicle"> | number
   lat?: Prisma.FloatFilter<"Vehicle"> | number
@@ -302,7 +302,7 @@ export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.VehicleWhereInput[]
   NOT?: Prisma.VehicleWhereInput | Prisma.VehicleWhereInput[]
   driverName?: Prisma.StringFilter<"Vehicle"> | string
-  status?: Prisma.StringFilter<"Vehicle"> | string
+  status?: Prisma.EnumVehicleStatusFilter<"Vehicle"> | $Enums.VehicleStatus
   speed?: Prisma.FloatFilter<"Vehicle"> | number
   fuelLevel?: Prisma.FloatFilter<"Vehicle"> | number
   lat?: Prisma.FloatFilter<"Vehicle"> | number
@@ -339,7 +339,7 @@ export type VehicleScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
   plateNumber?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
   driverName?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
-  status?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
+  status?: Prisma.EnumVehicleStatusWithAggregatesFilter<"Vehicle"> | $Enums.VehicleStatus
   speed?: Prisma.FloatWithAggregatesFilter<"Vehicle"> | number
   fuelLevel?: Prisma.FloatWithAggregatesFilter<"Vehicle"> | number
   lat?: Prisma.FloatWithAggregatesFilter<"Vehicle"> | number
@@ -353,7 +353,7 @@ export type VehicleCreateInput = {
   id?: string
   plateNumber: string
   driverName: string
-  status?: string
+  status?: $Enums.VehicleStatus
   speed?: number
   fuelLevel?: number
   lat: number
@@ -368,7 +368,7 @@ export type VehicleUncheckedCreateInput = {
   id?: string
   plateNumber: string
   driverName: string
-  status?: string
+  status?: $Enums.VehicleStatus
   speed?: number
   fuelLevel?: number
   lat: number
@@ -383,7 +383,7 @@ export type VehicleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -398,7 +398,7 @@ export type VehicleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -413,7 +413,7 @@ export type VehicleCreateManyInput = {
   id?: string
   plateNumber: string
   driverName: string
-  status?: string
+  status?: $Enums.VehicleStatus
   speed?: number
   fuelLevel?: number
   lat: number
@@ -427,7 +427,7 @@ export type VehicleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -441,7 +441,7 @@ export type VehicleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -522,6 +522,10 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type EnumVehicleStatusFieldUpdateOperationsInput = {
+  set?: $Enums.VehicleStatus
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -552,7 +556,7 @@ export type VehicleCreateWithoutAlertsInput = {
   id?: string
   plateNumber: string
   driverName: string
-  status?: string
+  status?: $Enums.VehicleStatus
   speed?: number
   fuelLevel?: number
   lat: number
@@ -566,7 +570,7 @@ export type VehicleUncheckedCreateWithoutAlertsInput = {
   id?: string
   plateNumber: string
   driverName: string
-  status?: string
+  status?: $Enums.VehicleStatus
   speed?: number
   fuelLevel?: number
   lat: number
@@ -596,7 +600,7 @@ export type VehicleUpdateWithoutAlertsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -610,7 +614,7 @@ export type VehicleUncheckedUpdateWithoutAlertsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plateNumber?: Prisma.StringFieldUpdateOperationsInput | string
   driverName?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumVehicleStatusFieldUpdateOperationsInput | $Enums.VehicleStatus
   speed?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelLevel?: Prisma.FloatFieldUpdateOperationsInput | number
   lat?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -698,7 +702,7 @@ export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     plateNumber: string
     driverName: string
-    status: string
+    status: $Enums.VehicleStatus
     speed: number
     fuelLevel: number
     lat: number
@@ -1079,7 +1083,7 @@ export interface VehicleFieldRefs {
   readonly id: Prisma.FieldRef<"Vehicle", 'String'>
   readonly plateNumber: Prisma.FieldRef<"Vehicle", 'String'>
   readonly driverName: Prisma.FieldRef<"Vehicle", 'String'>
-  readonly status: Prisma.FieldRef<"Vehicle", 'String'>
+  readonly status: Prisma.FieldRef<"Vehicle", 'VehicleStatus'>
   readonly speed: Prisma.FieldRef<"Vehicle", 'Float'>
   readonly fuelLevel: Prisma.FieldRef<"Vehicle", 'Float'>
   readonly lat: Prisma.FieldRef<"Vehicle", 'Float'>

@@ -111,8 +111,7 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 export const VehicleOrderByRelevanceFieldEnum = {
   id: 'id',
   plateNumber: 'plateNumber',
-  driverName: 'driverName',
-  status: 'status'
+  driverName: 'driverName'
 } as const
 
 export type VehicleOrderByRelevanceFieldEnum = (typeof VehicleOrderByRelevanceFieldEnum)[keyof typeof VehicleOrderByRelevanceFieldEnum]

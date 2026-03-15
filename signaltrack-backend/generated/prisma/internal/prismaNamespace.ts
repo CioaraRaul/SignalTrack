@@ -616,8 +616,7 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 export const VehicleOrderByRelevanceFieldEnum = {
   id: 'id',
   plateNumber: 'plateNumber',
-  driverName: 'driverName',
-  status: 'status'
+  driverName: 'driverName'
 } as const
 
 export type VehicleOrderByRelevanceFieldEnum = (typeof VehicleOrderByRelevanceFieldEnum)[keyof typeof VehicleOrderByRelevanceFieldEnum]
@@ -642,6 +641,13 @@ export type AlertOrderByRelevanceFieldEnum = (typeof AlertOrderByRelevanceFieldE
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+/**
+ * Reference to a field of type 'VehicleStatus'
+ */
+export type EnumVehicleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VehicleStatus'>
     
 
 
