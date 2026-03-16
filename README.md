@@ -1,76 +1,140 @@
-# SignalTrack 🚛
+# SignalTrack
 
-Real-time fleet monitoring and alert dashboard for logistics companies. Built with Angular Signals and NestJS WebSockets.
-
-## Overview
-
-SignalTrack gives fleet managers live visibility into vehicle locations, telemetry data, and critical safety events — all in a single dashboard. When a truck speeds, runs low on fuel, or exceeds driving time limits, dispatchers are notified instantly.
-
-## Features
-
-- **Live Map** — Leaflet.js map with color-coded markers (🟢 OK / 🔴 Alert)
-- **Real-Time Alerts** — Toast notifications triggered by speeding, low fuel, and fatigue events
-- **Angular Signals** — Reactive vehicle state management using Angular's modern primitives
-- **WebSocket Streaming** — NestJS Socket.io gateway broadcasts live telemetry every 3 seconds
+Real-time fleet monitoring dashboard for logistics companies. Track vehicle locations, speed, fuel levels, and safety alerts — all live on an interactive map.
 
 ## Tech Stack
 
-| Layer         | Technology                               |
-| ------------- | ---------------------------------------- |
-| Frontend      | Angular 17+, Angular Signals, Leaflet.js |
-| Notifications | Angular Toastr                           |
-| Backend       | NestJS, Socket.io                        |
-| Styling       | Tailwind CSS                             |
+| Layer    | Technology                                     |
+| -------- | ---------------------------------------------- |
+| Frontend | Angular 21, Angular Signals, Leaflet, Tailwind |
+| Backend  | NestJS, Socket.IO, Prisma ORM                  |
+| Database | MySQL 8                                        |
+| Infra    | Docker Compose                                 |
+
+## Features
+
+- **Live Map** — Leaflet map with color-coded vehicle markers (green=moving, yellow=idle, red=alert, gray=offline)
+- **Real-Time Updates** — WebSocket streaming via Socket.IO for instant telemetry updates
+- **Alert System** — Auto-detect speeding (>120 km/h) and low fuel (<15%) with toast notifications
+- **REST API** — Full CRUD for vehicles and alerts with Swagger documentation
+- **Signal-based State** — Angular Signals for reactive UI without external state libraries
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or pnpm
+- Docker & Docker Compose
+- Node.js 22+ (for local development)
 
-### Installation
+### Quick Start (Docker)
 
 ```bash
-# Clone the repo
 git clone https://github.com/your-username/signaltrack.git
 cd signaltrack
-
-# Install frontend dependencies
-cd frontend && npm install
-
-# Install backend dependencies
-cd ../backend && npm install
+docker compose up --build
 ```
 
-### Running the App
+This starts all three services:
+
+| Service  | URL                   |
+| -------- | --------------------- |
+| Frontend | http://localhost:4200 |
+| Backend  | http://localhost:3000 |
+| MySQL    | localhost:3306        |
+
+### Seed the Database
 
 ```bash
-# Start the NestJS backend (port 3000)
-cd backend && npm run start:dev
-
-# Start the Angular frontend (port 4200)
-cd frontend && npm run start
+cd signaltrack-backend
+npx prisma db seed
 ```
 
-Open [http://localhost:4200](http://localhost:4200) to view the dashboard.
+### Local Development (without Docker)
+
+```bash
+# Backend
+cd signaltrack-backend
+npm install
+npm run start:dev
+
+# Frontend (separate terminal)
+cd signaltrack-frontend
+npm install
+npx ng serve
+```
 
 ## Project Structure
 
 ```
 signaltrack/
-├── frontend/        # Angular app
+├── docker-compose.yml
+├── signaltrack-backend/          # NestJS API
 │   ├── src/
-│   │   ├── app/
-│   │   │   ├── map/           # Leaflet map component
-│   │   │   ├── alerts/        # Alert panel & toasts
-│   │   │   └── store/         # Angular Signals state
-├── backend/         # NestJS app
-│   ├── src/
-│   │   ├── fleet/             # WebSocket gateway
-│   │   └── simulation/        # Truck movement engine
+│   │   ├── vehicles/             # Vehicle CRUD (controller, service, DTOs)
+│   │   ├── alerts/               # Alert queries and persistence
+│   │   ├── fleet/                # WebSocket gateway + telemetry processing
+│   │   ├── prisma/               # Prisma service + schema
+│   │   ├── config/               # App configuration + constants
+│   │   └── common/               # Response interceptor, exception filter
+│   └── prisma/
+│       ├── seed.ts               # Database seeder
+│       └── migrations/           # SQL migrations
+│
+├── signaltrack-frontend/         # Angular app
+│   └── src/app/
+│       ├── core/                 # Singleton services (Socket, Vehicle, Alert)
+│       ├── features/
+│       │   ├── map/              # Leaflet map + marker management
+│       │   ├── vehicles/         # Vehicle list + cards
+│       │   ├── alerts/           # Alert panel
+│       │   └── dashboard/        # Dashboard (WIP)
+│       ├── shared/               # Reusable components, pipes, directives
+│       └── state/                # Signal-based stores + models
 ```
 
-## How It Works
+## API Endpoints
 
-The NestJS backend runs a simulation engine that moves a fleet of trucks across a map, occasionally triggering critical events (speeding, low fuel). These are broadcast via WebSockets to all connected Angular clients. The frontend uses Angular Signals to reactively update the map markers and fire toast notifications — no manual change detection required.
+### Vehicles
+
+| Method | Route         | Description       |
+| ------ | ------------- | ----------------- |
+| GET    | /vehicles     | List all vehicles |
+| GET    | /vehicles/:id | Get vehicle by ID |
+| POST   | /vehicles     | Create vehicle    |
+| PATCH  | /vehicles/:id | Update vehicle    |
+| DELETE | /vehicles/:id | Delete vehicle    |
+
+### Alerts
+
+| Method | Route              | Description              |
+| ------ | ------------------ | ------------------------ |
+| GET    | /alerts            | List all alerts          |
+| GET    | /alerts/:vehicleId | Get alerts for a vehicle |
+
+### WebSocket Events
+
+| Event         | Direction       | Description                            |
+| ------------- | --------------- | -------------------------------------- |
+| telemetry     | Client → Server | Send vehicle telemetry data            |
+| requestFleet  | Client → Server | Request full vehicle list              |
+| vehicleUpdate | Server → Client | Broadcast after telemetry processing   |
+| alert         | Server → Client | Broadcast when alert thresholds exceed |
+| fleetData     | Server → Client | Response to requestFleet               |
+
+## Alert Thresholds
+
+| Type  | Threshold | Trigger                |
+| ----- | --------- | ---------------------- |
+| Speed | 120 km/h  | Vehicle exceeds limit  |
+| Fuel  | 15%       | Fuel drops below level |
+
+## Environment Variables
+
+| Variable              | Default               | Description           |
+| --------------------- | --------------------- | --------------------- |
+| PORT                  | 3000                  | Backend port          |
+| DATABASE_URL          | (set in docker)       | MySQL connection      |
+| CORS_ORIGIN           | \*                    | Allowed CORS origin   |
+| FRONTEND_URL          | http://localhost:4200 | WebSocket CORS origin |
+| ALERT_SPEED_THRESHOLD | 120                   | Speed alert km/h      |
+| ALERT_FUEL_THRESHOLD  | 15                    | Fuel alert percentage |
