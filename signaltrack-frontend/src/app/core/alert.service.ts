@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Alert, AlertNotification } from '../state/models/alert.model';
+import { ApiResponse } from '../state/models/api-response.model';
 import { fleetStore } from '../state/fleet.store';
 import { environment } from '../../environments/environment';
 
@@ -16,7 +17,7 @@ export class AlertService {
 
   getAlerts(vehicleId?: string): Observable<Alert[]> {
     const url = vehicleId ? `${this.baseUrl}/${vehicleId}` : this.baseUrl;
-    return this.http.get<Alert[]>(url);
+    return this.http.get<ApiResponse<Alert[]>>(url).pipe(map((res) => res.data));
   }
 
   addNotification(vehicleId: string): void {
