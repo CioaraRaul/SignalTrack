@@ -53,7 +53,7 @@ export class AlertsService {
   }
 
   async saveAlert(vehicleId: string, alert: AlertResult): Promise<Alert> {
-    return this.prisma.alert.create({
+    return await this.prisma.alert.create({
       data: {
         vehicleId,
         type: alert.type,

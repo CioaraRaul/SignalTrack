@@ -8,8 +8,7 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
-    const url = process.env.DATABASE_URL! + '&allowPublicKeyRetrieval=true';
-    const adapter = new PrismaMariaDb(url);
+    const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
     super({ adapter });
   }
 
