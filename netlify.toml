@@ -1,0 +1,10 @@
+[build]
+  base = "signaltrack-frontend"
+  command = "npm install && npm run build"
+  publish = "dist/signaltrack-frontend/browser"
+
+# SPA fallback — all routes serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
