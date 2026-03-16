@@ -9,6 +9,8 @@ import { uiStore } from '../../state/ui.store';
 export class MapService {
   private map: L.Map | null = null;
   private markers = new Map<string, L.Marker>();
+  private tempMarker: L.Marker | null = null;
+  private mapClickHandler: ((e: L.LeafletMouseEvent) => void) | null = null;
 
   initMap(
     container: HTMLElement,
@@ -105,6 +107,49 @@ export class MapService {
 
   private handleMarkerClick(vehicleId: string): void {
     this.toggleVehicleSelection(vehicleId);
+  }
+
+  onMapClick(callback: (lat: number, lng: number) => void): void {
+    if (!this.map) return;
+    this.offMapClick();
+    this.mapClickHandler = (e: L.LeafletMouseEvent) => {
+      callback(e.latlng.lat, e.latlng.lng);
+    };
+    this.map.on('click', this.mapClickHandler);
+  }
+
+  offMapClick(): void {
+    if (this.map && this.mapClickHandler) {
+      this.map.off('click', this.mapClickHandler);
+      this.mapClickHandler = null;
+    }
+  }
+
+  addTempMarker(lat: number, lng: number): void {
+    this.removeTempMarker();
+    if (!this.map) return;
+
+    const icon = L.divIcon({
+      className: 'vehicle-marker',
+      html: `
+        <svg width="28" height="28" viewBox="0 0 28 28">
+          <circle cx="14" cy="14" r="12" fill="#3b82f6" opacity="0.3">
+            <animate attributeName="r" values="8;14;8" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="14" cy="14" r="7" fill="#3b82f6" stroke="#fff" stroke-width="2"/>
+        </svg>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+    });
+
+    this.tempMarker = L.marker([lat, lng], { icon }).addTo(this.map);
+  }
+
+  removeTempMarker(): void {
+    if (this.tempMarker) {
+      this.tempMarker.remove();
+      this.tempMarker = null;
+    }
   }
 
   destroyMap(): void {

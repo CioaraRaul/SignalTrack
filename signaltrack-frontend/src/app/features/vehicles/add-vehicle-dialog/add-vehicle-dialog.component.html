@@ -1,0 +1,75 @@
+<div class="dialog-backdrop" (click)="onBackdropClick($event)">
+  <div class="dialog-card">
+    <h2 class="dialog-title">Adaugă vehicul</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="plateNumber">Număr înmatriculare</label>
+        <input
+          id="plateNumber"
+          formControlName="plateNumber"
+          placeholder="B-101-ABC"
+          autocomplete="off"
+        />
+        @if (form.get('plateNumber')?.touched && form.get('plateNumber')?.hasError('required')) {
+          <span class="error-text">Câmp obligatoriu</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="driverName">Șofer</label>
+        <input
+          id="driverName"
+          formControlName="driverName"
+          placeholder="Ion Popescu"
+          autocomplete="off"
+        />
+        @if (form.get('driverName')?.touched && form.get('driverName')?.hasError('required')) {
+          <span class="error-text">Câmp obligatoriu</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          @for (opt of statusOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="speed">Viteză (km/h)</label>
+          <input id="speed" type="number" formControlName="speed" min="0" />
+        </div>
+        <div class="form-group half">
+          <label for="fuelLevel">Combustibil (%)</label>
+          <input id="fuelLevel" type="number" formControlName="fuelLevel" min="0" max="100" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Latitudine</label>
+          <input [value]="coords().lat | number: '1.4-4'" readonly title="Latitudine" />
+        </div>
+        <div class="form-group half">
+          <label>Longitudine</label>
+          <input [value]="coords().lng | number: '1.4-4'" readonly title="Longitudine" />
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="onCancel()">Anulează</button>
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          {{ submitting ? 'Se salvează...' : 'Adaugă' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

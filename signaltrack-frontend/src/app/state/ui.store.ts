@@ -7,6 +7,8 @@ const _activeFilter = signal<VehicleStatus | 'all'>('all');
 const _mapZoom = signal(13);
 const _alertPanelOpen = signal(true);
 const _previousMapView = signal<MapView | null>(null);
+const _addVehicleMode = signal(false);
+const _addVehicleCoords = signal<{ lat: number; lng: number } | null>(null);
 
 export const uiStore = {
   sidebarOpen: _sidebarOpen.asReadonly(),
@@ -37,5 +39,22 @@ export const uiStore = {
 
   clearPreviousMapView() {
     _previousMapView.set(null);
+  },
+
+  addVehicleMode: _addVehicleMode.asReadonly(),
+  addVehicleCoords: _addVehicleCoords.asReadonly(),
+
+  enterAddVehicleMode() {
+    _addVehicleMode.set(true);
+    _addVehicleCoords.set(null);
+  },
+
+  exitAddVehicleMode() {
+    _addVehicleMode.set(false);
+    _addVehicleCoords.set(null);
+  },
+
+  setAddVehicleCoords(lat: number, lng: number) {
+    _addVehicleCoords.set({ lat, lng });
   },
 };

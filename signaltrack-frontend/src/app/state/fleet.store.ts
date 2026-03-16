@@ -31,4 +31,8 @@ export const fleetStore = {
   selectVehicle(id: string | null) {
     _selectedVehicleId.set(id);
   },
+
+  addVehicle(vehicle: Vehicle) {
+    _vehicles.update((list) => [...list, vehicle]);
+  },
 };
