@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { VehicleListComponent } from '../../features/vehicles/vehicle-list/vehicle-list.component';
 import { fleetStore } from '../../state/fleet.store';
 import { uiStore } from '../../state/ui.store';
@@ -7,7 +8,7 @@ import { VehicleStatus } from '../../state/models/vehicle.model';
 @Component({
   selector: 'app-sidebar-shell',
   standalone: true,
-  imports: [VehicleListComponent],
+  imports: [VehicleListComponent, RouterLink, RouterLinkActive],
   templateUrl: './sidebar-shell.component.html',
   styleUrl: './sidebar-shell.component.scss',
 })

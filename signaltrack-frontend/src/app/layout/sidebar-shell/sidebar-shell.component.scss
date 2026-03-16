@@ -19,35 +19,44 @@
 }
 
 .sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 16px;
   border-bottom: 1px solid #e5e7eb;
   flex-shrink: 0;
 
   .title {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #111827;
-    margin: 0;
+    margin: 0 0 10px;
   }
 
-  .toggle-btn {
+  .nav-links {
     display: flex;
+    gap: 4px;
+  }
+
+  .nav-link {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: none;
+    gap: 4px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
     color: #6b7280;
-    cursor: pointer;
-    border-radius: 4px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition:
+      background 0.15s,
+      color 0.15s;
 
     &:hover {
       background: #f3f4f6;
       color: #111827;
+    }
+
+    &.active {
+      background: #3b82f6;
+      color: #fff;
     }
   }
 }

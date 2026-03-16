@@ -1,0 +1,54 @@
+<div class="dialog-backdrop" (click)="onBackdropClick($event)">
+  <div class="dialog-card">
+    <h2 class="dialog-title">Editează vehicul</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="plateNumber">Număr înmatriculare</label>
+        <input id="plateNumber" formControlName="plateNumber" autocomplete="off" />
+        @if (form.get('plateNumber')?.touched && form.get('plateNumber')?.hasError('required')) {
+          <span class="error-text">Câmp obligatoriu</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="driverName">Șofer</label>
+        <input id="driverName" formControlName="driverName" autocomplete="off" />
+        @if (form.get('driverName')?.touched && form.get('driverName')?.hasError('required')) {
+          <span class="error-text">Câmp obligatoriu</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          @for (opt of statusOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="speed">Viteză (km/h)</label>
+          <input id="speed" type="number" formControlName="speed" min="0" />
+        </div>
+        <div class="form-group half">
+          <label for="fuelLevel">Combustibil (%)</label>
+          <input id="fuelLevel" type="number" formControlName="fuelLevel" min="0" max="100" />
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <div class="dialog-actions">
+        <button type="button" class="btn-cancel" (click)="onCancel()">Anulează</button>
+        <button type="submit" class="btn-submit" [disabled]="submitting">
+          {{ submitting ? 'Se salvează...' : 'Salvează' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

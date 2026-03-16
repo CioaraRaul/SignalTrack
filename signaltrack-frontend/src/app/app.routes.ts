@@ -10,4 +10,9 @@ export const routes: Routes = [
     path: 'map',
     loadChildren: () => import('./features/map/map.routes').then((m) => m.MAP_ROUTES),
   },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./features/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
+  },
 ];

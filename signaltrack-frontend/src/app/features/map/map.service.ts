@@ -12,11 +12,7 @@ export class MapService {
   private tempMarker: L.Marker | null = null;
   private mapClickHandler: ((e: L.LeafletMouseEvent) => void) | null = null;
 
-  initMap(
-    container: HTMLElement,
-    center: L.LatLngExpression = [47.0722, 21.9213],
-    zoom = 13,
-  ): L.Map {
+  initMap(container: HTMLElement, center: L.LatLngExpression = [47.065, 21.925], zoom = 13): L.Map {
     this.map = L.map(container, { center, zoom, zoomControl: true });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

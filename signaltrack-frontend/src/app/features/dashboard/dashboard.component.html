@@ -1,3 +1,56 @@
 <section class="dashboard">
-  <!-- TODO: Dashboard template -->
+  <h1 class="page-title">Dashboard</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-value">{{ totalVehicles() }}</span>
+      <span class="stat-label">Total vehicule</span>
+    </div>
+    <div class="stat-card moving">
+      <span class="stat-value">{{ store.movingCount() }}</span>
+      <span class="stat-label">În mișcare</span>
+    </div>
+    <div class="stat-card idle">
+      <span class="stat-value">{{ store.idleCount() }}</span>
+      <span class="stat-label">Staționare</span>
+    </div>
+    <div class="stat-card alert">
+      <span class="stat-value">{{ store.alertCount() }}</span>
+      <span class="stat-label">Alertă</span>
+    </div>
+    <div class="stat-card offline">
+      <span class="stat-value">{{ store.offlineCount() }}</span>
+      <span class="stat-label">Offline</span>
+    </div>
+    <div class="stat-card speed">
+      <span class="stat-value">{{ avgSpeed() }} <small>km/h</small></span>
+      <span class="stat-label">Viteză medie</span>
+    </div>
+    <div class="stat-card fuel">
+      <span class="stat-value">{{ avgFuel() }}%</span>
+      <span class="stat-label">Combustibil mediu</span>
+    </div>
+  </div>
+
+  @if (lowFuelVehicles().length) {
+    <div class="section">
+      <h2 class="section-title">⛽ Combustibil scăzut (&lt; 20%)</h2>
+      <div class="low-fuel-list">
+        @for (v of lowFuelVehicles(); track v.id) {
+          <div class="low-fuel-row">
+            <span class="lf-plate">{{ v.plateNumber }}</span>
+            <span class="lf-driver">{{ v.driverName }}</span>
+            <div class="lf-bar-wrapper">
+              <div
+                class="lf-bar"
+                [style.width.%]="v.fuelLevel"
+                [class.critical]="v.fuelLevel < 10"
+              ></div>
+            </div>
+            <span class="lf-value">{{ v.fuelLevel | number: '1.0-0' }}%</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </section>

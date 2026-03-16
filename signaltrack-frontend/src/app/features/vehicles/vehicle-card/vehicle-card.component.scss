@@ -28,6 +28,33 @@
     gap: 6px;
   }
 
+  .edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity 0.15s,
+      color 0.15s,
+      background 0.15s;
+
+    &:hover {
+      background: #dbeafe;
+      color: #3b82f6;
+    }
+  }
+
+  &:hover .edit-btn {
+    opacity: 1;
+  }
+
   .delete-btn {
     display: flex;
     align-items: center;
@@ -100,5 +127,60 @@
   .muted {
     color: #9ca3af;
     font-weight: 400;
+  }
+
+  .confirm-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+
+    .confirm-text {
+      font-size: 0.75rem;
+      color: #991b1b;
+      font-weight: 500;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .confirm-yes,
+    .confirm-no {
+      padding: 2px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .confirm-yes {
+      background: #ef4444;
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background: #dc2626;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    .confirm-no {
+      background: #e5e7eb;
+      color: #374151;
+
+      &:hover {
+        background: #d1d5db;
+      }
+    }
   }
 }
