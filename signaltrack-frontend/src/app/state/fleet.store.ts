@@ -35,4 +35,11 @@ export const fleetStore = {
   addVehicle(vehicle: Vehicle) {
     _vehicles.update((list) => [...list, vehicle]);
   },
+
+  removeVehicle(id: string) {
+    _vehicles.update((list) => list.filter((v) => v.id !== id));
+    if (_selectedVehicleId() === id) {
+      _selectedVehicleId.set(null);
+    }
+  },
 };
