@@ -20,7 +20,7 @@ services:
     volumes:
       - ./signaltrack-backend/src:/app/src
     environment:
-      DATABASE_URL: mysql://signaltrack:signaltrack@db:3306/signaltrack
+      DATABASE_URL: mysql://signaltrack:signaltrack@db:3306/signaltrack?allowPublicKeyRetrieval=true&ssl=false
     depends_on:
       - db
     command: npm run start:dev
