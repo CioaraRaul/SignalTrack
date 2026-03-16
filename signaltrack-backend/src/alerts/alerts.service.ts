@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import type { Alert } from '../../generated/prisma/client.js';
+import type { Alert } from '@prisma/client';
 import { AlertResult } from './interfaces/alert-result.interface';
 import {
   DEFAULT_ALERT_SPEED_THRESHOLD,
