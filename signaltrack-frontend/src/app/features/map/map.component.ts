@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, effect } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MapService } from './map.service';
 import { fleetStore } from '../../state/fleet.store';
-import { DEMO_VEHICLES } from '../../state/mock/demo-vehicles';
+import { VehicleService } from '../../core/vehicle.service';
+import { SocketService } from '../../core/socket.service';
+import { AlertService } from '../../core/alert.service';
 
 @Component({
   selector: 'app-map',
@@ -13,7 +16,14 @@ export class MapComponent implements OnInit, OnDestroy {
   @ViewChild('mapContainer', { static: true })
   mapContainer!: ElementRef<HTMLDivElement>;
 
-  constructor(private mapService: MapService) {
+  private subscriptions = new Subscription();
+
+  constructor(
+    private mapService: MapService,
+    private vehicleService: VehicleService,
+    private socketService: SocketService,
+    private alertService: AlertService,
+  ) {
     effect(() => {
       const vehicles = fleetStore.vehicles();
       this.mapService.syncMarkers(vehicles);
@@ -22,11 +32,46 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mapService.initMap(this.mapContainer.nativeElement);
-    // Demo data — replace with API/WebSocket when backend is connected
-    fleetStore.setVehicles(DEMO_VEHICLES);
+
+    // Load initial vehicles from REST API
+    this.subscriptions.add(
+      this.vehicleService.getAll().subscribe((vehicles) => {
+        fleetStore.setVehicles(vehicles);
+      }),
+    );
+
+    // Connect WebSocket for real-time updates
+    this.socketService.connect();
+
+    this.subscriptions.add(
+      this.socketService.vehicleUpdate$.subscribe((telemetry) => {
+        fleetStore.updateVehicle(telemetry.vehicleId, {
+          status: telemetry.status,
+          lat: telemetry.lat,
+          lng: telemetry.lng,
+          speed: telemetry.speed,
+          fuelLevel: telemetry.fuelLevel,
+          lastUpdate: telemetry.lastUpdate,
+        });
+      }),
+    );
+
+    this.subscriptions.add(
+      this.socketService.alert$.subscribe((alertEvent) => {
+        this.alertService.addNotification(alertEvent.vehicleId);
+      }),
+    );
+
+    this.subscriptions.add(
+      this.socketService.fleetData$.subscribe((vehicles) => {
+        fleetStore.setVehicles(vehicles);
+      }),
+    );
   }
 
   ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.socketService.disconnect();
     this.mapService.destroyMap();
   }
 }

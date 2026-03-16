@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  // TODO: Add environment-specific settings
+  apiUrl: 'http://localhost:3000',
+  wsUrl: 'http://localhost:3000',
 };
