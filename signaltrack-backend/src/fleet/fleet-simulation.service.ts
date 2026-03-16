@@ -50,23 +50,26 @@ export class FleetSimulationService implements OnModuleInit, OnModuleDestroy {
       for (const vehicle of vehicles) {
         const speedKmh = vehicle.speed;
 
+        // Fuel decreases proportional to speed
+        const fuelDrain = speedKmh * FUEL_DRAIN_FACTOR;
+        const newFuel = Math.max(0, vehicle.fuelLevel - fuelDrain);
+
+        // If out of fuel, stop the vehicle in place
+        const effectiveSpeed = newFuel === 0 ? 0 : speedKmh;
+
         // Movement: small random offset based on speed
-        const distKm = (speedKmh / 3600) * (SIMULATION_TICK_MS / 1000);
+        const distKm = (effectiveSpeed / 3600) * (SIMULATION_TICK_MS / 1000);
         const angle = Math.random() * 2 * Math.PI;
         const offsetDeg = distKm * EARTH_DEG_PER_KM;
         const newLat = vehicle.lat + Math.cos(angle) * offsetDeg;
         const newLng = vehicle.lng + Math.sin(angle) * offsetDeg;
-
-        // Fuel decreases proportional to speed
-        const fuelDrain = speedKmh * FUEL_DRAIN_FACTOR;
-        const newFuel = Math.max(0, vehicle.fuelLevel - fuelDrain);
 
         // Send through the existing telemetry pipeline
         const result = await this.fleetService.processTelemetry({
           vehicleId: vehicle.id,
           lat: newLat,
           lng: newLng,
-          speed: speedKmh,
+          speed: effectiveSpeed,
           fuelLevel: parseFloat(newFuel.toFixed(1)),
         });
 
