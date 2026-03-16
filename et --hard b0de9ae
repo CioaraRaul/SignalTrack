@@ -1,0 +1,20 @@
+* [33md400cd2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m docker file prod added
+* [33m02a1aaa[m update for production
+* [33m5c29047[m removed healtcheckpath because of railway
+* [33mb0de9ae[m for deployment
+* [33m3a6cca5[m feature/edit-dashboard-nav
+* [33mb6721f3[m added the funtionality to delete a vehicle via the trashicon
+* [33maee8ace[m feat: add real-time fleet simulation with movement and fuel drain
+* [33m073c7db[m feat: add vehicle creation via map click with FAB and modal dialog
+* [33m8219b85[m updated readme
+* [33mf53fc49[m fix: unwrap API response to extract data from backend wrapper
+* [33mf113c33[m feat: integrate backend API and WebSocket into frontend
+* [33m054a216[m added gitignore for api-tests http
+* [33m22bd112[m fix: fix POST /vehicles 500 error
+* [33m3591940[m feat: add Swagger API documentation with decorators on all controllers, DTOs and entities
+* [33mece062a[m fix: resolve Docker build failures - npm peer deps conflict and Prisma ESM/CJS compatibility
+* [33m794ea66[m database migration and seed
+* [33m143dfbf[m db(prisma) connected + vscode extension login db to see data
+* [33mecd6cc6[m add alerts, config, common modules with Prisma integration
+* [33m3aac383[m feat/toggle-vehicle-selection-restore-map-view
+* [33m0228aa4[m  add alert panel, toast notifications, and AlertNotification model
